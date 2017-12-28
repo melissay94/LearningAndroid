@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Task Manager</string>
+    <string name="edit_message">Enter a task</string>
+    <string name="empty_list_title">You have no Tasks</string>
+    <string name="list_title">Your Tasks</string>
+
+    <!-- Recycler View -->
+    <string name="button_send">Add</string>
+    <string name="button_delete">Done</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
