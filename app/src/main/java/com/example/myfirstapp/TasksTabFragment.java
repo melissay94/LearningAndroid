@@ -14,9 +14,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
-/**
- */
 public class TasksTabFragment extends Fragment {
 
     // File Saver
@@ -34,18 +31,26 @@ public class TasksTabFragment extends Fragment {
     // Get the button for sending tasks
     Button addButton;
 
+    EditText editText;
+
+    public interface DeleteListItemListener {
+        void onDeleteItem(final int position);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
-        getActivity().setContentView(R.layout.fragment_tasks_tab);
+        final View view = inflater.inflate(R.layout.fragment_tasks_tab, container, false);
 
-        addButton = container.getRootView().findViewById(R.id.add_button);
+        addButton = view.findViewById(R.id.add_button);
+        editText = view.findViewById(R.id.editText);
+        listTitle = view.findViewById(R.id.list_title);
 
         // Set up button event
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendTask(view);
+                sendTask();
             }
         });
 
@@ -55,8 +60,16 @@ public class TasksTabFragment extends Fragment {
         // Read in the tasks
         saver.readFromFile();
 
+        recyclerAdapter = new SimpleAdapter(new DeleteListItemListener() {
+            @Override
+            public void onDeleteItem(final int position) {
+                recyclerAdapter.deleteFromModelList(position);
+                saver.removeFromFile(position, listTitle);
+            }
+        });
+
         // Instantiate recyclerView
-        recyclerView = container.getRootView().findViewById(R.id.simple_recycle);
+        recyclerView = view.findViewById(R.id.simple_recycle);
 
         // Manages layout of list to determine how data displays --> This one is vertically linear
         recyclerView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -71,7 +84,7 @@ public class TasksTabFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         // Set up item decorator
-        RecyclerView.ItemDecoration itemDivider = new DividerDecoration(ContextCompat.getDrawable(this.getContext(), R.drawable.divider));
+        RecyclerView.ItemDecoration itemDivider = new DividerDecoration(ContextCompat.getDrawable(getContext(), R.drawable.divider));
         recyclerView.addItemDecoration(itemDivider);
 
         // Populate our view
@@ -79,17 +92,16 @@ public class TasksTabFragment extends Fragment {
             recyclerAdapter.addToModelList(task);
         }
 
-        if (saver.getTasks().size() > 0)
-            listTitle.setText(getString(R.string.list_title) + " (" + saver.getTasks().size() + " left)" );
+        if (saver.getTasks().size() > 0) {
+            listTitle.setText(getString(R.string.list_title) + " (" + saver.getTasks().size() + " left)");
+        }
 
-
-        return inflater.inflate(R.layout.fragment_shopping_tab, container, false);
+        return view;
 
     }
 
     // Called when user hits send button
-    public void sendTask(View view) {
-        EditText editText = view.findViewById(R.id.editText);
+    public void sendTask() {
         String message = editText.getText().toString();
         if (message.replace(" ", "").length() > 0) {
             recyclerAdapter.addToModelList(message);
