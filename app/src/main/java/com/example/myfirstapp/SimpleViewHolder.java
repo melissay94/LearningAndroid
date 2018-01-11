@@ -13,20 +13,19 @@ import android.widget.TextView;
 
 public class SimpleViewHolder extends RecyclerView.ViewHolder  {
 
-    private Button deleteButton;
     private TextView simpleTextView;
 
     // Constructor
-    public SimpleViewHolder(final View itemView, final SimpleAdapter.MyClickListener listener) {
+    public SimpleViewHolder(final View itemView, final TasksTabFragment.DeleteListItemListener listener) {
         super(itemView);
 
         simpleTextView = itemView.findViewById(R.id.simple_text);
-        deleteButton = itemView.findViewById(R.id.delete_button);
 
+        final Button deleteButton = itemView.findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.onItemClick(view, getAdapterPosition());
+                listener.onDeleteItem(getAdapterPosition());
             }
         });
     }
@@ -35,6 +34,4 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder  {
     public void bindData(final SimpleViewModel viewModel) {
         simpleTextView.setText(viewModel.getSimpleText());
     }
-
-
 }

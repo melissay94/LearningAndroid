@@ -1,7 +1,7 @@
 package com.example.myfirstapp;
 
-import android.app.Activity;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -16,9 +16,9 @@ import java.util.ArrayList;
  * To save internal data
  */
 
-public class SimpleListSaver  {
+public class SimpleListSaver {
 
-    private Activity currentActivity;
+    private final Context context;
 
     // Internal file
     private String dataFileName = "ListData.txt";
@@ -26,12 +26,8 @@ public class SimpleListSaver  {
     // Array of all the tasks
     private ArrayList<String> tasks = new ArrayList<>();
 
-    // Title of the list
-    private TextView listTitle;
-
-    public SimpleListSaver(Activity currentActivity) {
-        this.currentActivity = currentActivity;
-        listTitle = currentActivity.findViewById(R.id.list_title);
+    public SimpleListSaver(@NonNull final Context context) {
+        this.context = context;
     }
 
     public ArrayList<String> getTasks() {
@@ -44,7 +40,7 @@ public class SimpleListSaver  {
         String separator = System.getProperty("line.separator");
 
         try {
-            fileOut = currentActivity.openFileOutput(dataFileName, editMode);
+            fileOut = context.openFileOutput(dataFileName, editMode);
             OutputStreamWriter writer = new OutputStreamWriter(fileOut);
             writer.write(newTask + separator);
             writer.close();
@@ -58,7 +54,7 @@ public class SimpleListSaver  {
     public void readFromFile() {
 
         try {
-            FileInputStream fileIn = currentActivity.openFileInput(dataFileName);
+            FileInputStream fileIn = context.openFileInput(dataFileName);
             InputStreamReader reader = new InputStreamReader(fileIn);
             BufferedReader buffer = new BufferedReader(reader);
 
@@ -77,7 +73,7 @@ public class SimpleListSaver  {
     }
 
     // Remove tasks from internal file
-    public void removeFromFile(int index) {
+    public void removeFromFile(int index, @NonNull final TextView listTitle) {
         tasks.remove(index);
         writeToFile("", Context.MODE_PRIVATE);
         for (String task : tasks) {
@@ -85,10 +81,10 @@ public class SimpleListSaver  {
         }
 
         // Change the title
-        if (tasks.size() > 0)
-            listTitle.setText(currentActivity.getString(R.string.list_title) + " (" + tasks.size() + " left)" );
-        else
-            listTitle.setText(currentActivity.getString(R.string.empty_list_title));
-
+        if (tasks.size() > 0) {
+            listTitle.setText(context.getString(R.string.list_title) + " (" + tasks.size() + " left)");
+        } else {
+            listTitle.setText(context.getString(R.string.empty_list_title));
+        }
     }
 }

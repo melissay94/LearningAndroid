@@ -2,14 +2,11 @@ package com.example.myfirstapp;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentPagerAdapter;
 
+public class PagerNavFragment extends FragmentPagerAdapter {
 
-/**
- */
-public class PagerNavFragment extends FragmentStatePagerAdapter {
-
-    int numOfTabs;
+    private int numOfTabs;
 
     public PagerNavFragment(FragmentManager fragMan, int numOfTabs) {
         super(fragMan);
