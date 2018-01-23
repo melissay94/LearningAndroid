@@ -13,7 +13,7 @@
         android:layout_height="53dp"
         android:layout_marginTop="24dp"
         android:ems="10"
-        android:hint="@string/edit_message"
+        android:hint="@string/edit_text_add_task"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toStartOf="@+id/add_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,24 +31,24 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/editText" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/simple_recycle"
-        android:layout_width="0dp"
-        android:layout_height="570dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/list_title" />
-
     <TextView
         android:id="@+id/list_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/empty_list_title"
+        android:text="@string/empty_task_list"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/add_button" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/simple_recycle"
+        android:layout_width="0dp"
+        android:layout_height="400dp"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_title" />
 
 
 </android.support.constraint.ConstraintLayout>

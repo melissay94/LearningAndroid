@@ -82,9 +82,9 @@ public class SimpleListSaver {
 
         // Change the title
         if (tasks.size() > 0) {
-            listTitle.setText(context.getString(R.string.list_title) + " (" + tasks.size() + " left)");
+            listTitle.setText(context.getString(R.string.task_list) + " (" + tasks.size() + " left)");
         } else {
-            listTitle.setText(context.getString(R.string.empty_list_title));
+            listTitle.setText(context.getString(R.string.empty_task_list));
         }
     }
 }

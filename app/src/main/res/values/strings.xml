@@ -1,14 +1,17 @@
 <resources>
     <string name="app_name">Task Manager</string>
-    <string name="edit_message">Enter a task</string>
-    <string name="empty_list_title">You have no Tasks</string>
-    <string name="list_title">Your Tasks</string>
+    <string name="empty_task_list">You have no Tasks</string>
+    <string name="task_list">Your Tasks</string>
+    <string name="empty_shopping_list">You have no Items</string>
+    <string name="shopping_list">Your Shopping</string>
 
     <!-- Recycler View -->
     <string name="button_send">Add</string>
     <string name="button_delete">Done</string>
+    <string name="edit_text_add_task">Enter a task</string>
+    <string name="edit_text_add_item">Enter an item</string>
 
     <!--Tabs-->
-    <string name="tab_tasks">These are your To Dos</string>
-    <string name="tab_shopping">This is your Shopping List</string>
+    <string name="tab_tasks">To Dos</string>
+    <string name="tab_shopping">Shopping List</string>
 </resources>
