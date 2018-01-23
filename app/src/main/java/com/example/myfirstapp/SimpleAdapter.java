@@ -20,23 +20,17 @@ public class SimpleAdapter extends RecyclerView.Adapter {
 
     private List<SimpleViewModel> models = new ArrayList<>();
 
-    private SimpleListSaver saver;
+    private final TasksTabFragment.DeleteListItemListener deleteListItemListener;
 
-    public SimpleAdapter (SimpleListSaver saver) {
-        this.saver = saver;
+    public SimpleAdapter(final TasksTabFragment.DeleteListItemListener deleteListItemListener) {
+        this.deleteListItemListener = deleteListItemListener;
     }
 
     // Initializes viewHolders.
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewTypes) {
         final View view = LayoutInflater.from(parent.getContext()).inflate(viewTypes, parent, false);
-        return new SimpleViewHolder(view, new MyClickListener() {
-            @Override
-            public void onItemClick(View v, int index) {
-                deleteFromModelList(index);
-                saver.removeFromFile(index);
-            }
-        });
+        return new SimpleViewHolder(view, deleteListItemListener);
     }
 
     // Binds viewHolders to the adapter
@@ -68,9 +62,5 @@ public class SimpleAdapter extends RecyclerView.Adapter {
     public void deleteFromModelList(int index) {
         models.remove(index);
         this.notifyItemRemoved(index);
-    }
-
-    interface MyClickListener {
-        void onItemClick(View v, int index);
     }
 }
