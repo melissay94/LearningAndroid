@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
 /**
  */
 public class ShoppingTabFragment extends Fragment {
@@ -120,6 +119,4 @@ public class ShoppingTabFragment extends Fragment {
         listTitle.setText(R.string.shopping_list);
 
     }
-
-
 }

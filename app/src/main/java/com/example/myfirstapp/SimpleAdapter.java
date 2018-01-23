@@ -19,7 +19,6 @@ import java.util.Locale;
 public class SimpleAdapter extends RecyclerView.Adapter {
 
     private List<SimpleViewModel> models = new ArrayList<>();
-
     private TasksTabFragment.DeleteListItemListener deleteListItemListener;
 
     // Default constructor
