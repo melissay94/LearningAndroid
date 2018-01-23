@@ -93,7 +93,7 @@ public class TasksTabFragment extends Fragment {
         }
 
         if (saver.getTasks().size() > 0) {
-            listTitle.setText(getString(R.string.list_title) + " (" + saver.getTasks().size() + " left)");
+            listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)");
         }
 
         return view;
@@ -110,7 +110,7 @@ public class TasksTabFragment extends Fragment {
         }
         editText.setText("");
 
-        listTitle.setText(getString(R.string.list_title) + " (" + saver.getTasks().size() + " left)" );
+        listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)" );
 
     }
 }
