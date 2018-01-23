@@ -5,34 +5,27 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    // Title of the list area
-    TextView listTitle;
-
-    // Toolbar
-    Toolbar toolbar;
-
-    // TabLayout
+    @BindView(R.id.tabLayout)
     TabLayout tabLayout;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // Instantiate list title
-        listTitle = findViewById(R.id.list_title);
-
-        // Instantiate toolbar
-        toolbar = findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
         // Instantiate tablayout
-        tabLayout = findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_tasks));
         tabLayout.addTab(tabLayout.newTab().setText(R.string.tab_shopping));
 
@@ -41,10 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Pager view for tabs
         final ViewPager viewPager = findViewById(R.id.viewPager);
-//
+
         // Set up "adapter"
         final PagerNavFragment pagerAdapter = new PagerNavFragment(getSupportFragmentManager(), tabLayout.getTabCount());
-
 
         viewPager.setAdapter(pagerAdapter);
 
