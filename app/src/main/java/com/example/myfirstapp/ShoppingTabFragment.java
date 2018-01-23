@@ -110,7 +110,7 @@ public class ShoppingTabFragment extends Fragment {
         String itemPrice = editShoppingItemPrice.getText().toString();
 
         if (itemName.replace(" ", "").length() > 0) {
-            recyclerAdapter.addToModelList(itemName + " - $" + itemPrice);
+            recyclerAdapter.addToModelList(itemName + " - " + itemPrice);
         }
 
         editShoppingItemName.setText("");
