@@ -10,6 +10,7 @@
     <string name="button_delete">Done</string>
     <string name="edit_text_add_task">Enter a task</string>
     <string name="edit_text_add_item">Enter an item</string>
+    <string name="edit_text_add_price">$ 0.00</string>
 
     <!--Tabs-->
     <string name="tab_tasks">To Dos</string>

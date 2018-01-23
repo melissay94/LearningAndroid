@@ -20,7 +20,12 @@ public class SimpleAdapter extends RecyclerView.Adapter {
 
     private List<SimpleViewModel> models = new ArrayList<>();
 
-    private final TasksTabFragment.DeleteListItemListener deleteListItemListener;
+    private TasksTabFragment.DeleteListItemListener deleteListItemListener;
+
+    // Default constructor
+    public SimpleAdapter() {
+
+    }
 
     public SimpleAdapter(final TasksTabFragment.DeleteListItemListener deleteListItemListener) {
         this.deleteListItemListener = deleteListItemListener;
