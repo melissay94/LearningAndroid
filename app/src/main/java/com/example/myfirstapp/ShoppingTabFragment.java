@@ -16,7 +16,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
+ * Fragment for setting up shopping list view and it's recycler view
  */
 public class ShoppingTabFragment extends Fragment {
 
@@ -24,29 +28,30 @@ public class ShoppingTabFragment extends Fragment {
     SimpleAdapter recyclerAdapter;
 
     // RecyclerView
+    @BindView(R.id.simple_recycle)
     RecyclerView recyclerView;
 
     // Field for entering item
+    @BindView(R.id.editItemName)
     EditText editShoppingItemName;
 
     // Field for entering price of item
+    @BindView(R.id.editText)
     EditText editShoppingItemPrice;
 
     // Title of the list area
+    @BindView(R.id.list_title)
     TextView listTitle;
 
     // Button for adding item
+    @BindView(R.id.add_button)
     Button addItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
         final View view = inflater.inflate(R.layout.fragment_shopping_tab, container, false);
-
-        editShoppingItemName = view.findViewById(R.id.editItemName);
-        editShoppingItemPrice = view.findViewById(R.id.editText);
-        listTitle = view.findViewById(R.id.list_title);
-        addItem = view.findViewById(R.id.add_button);
+        ButterKnife.bind(this, view);
 
         // Change fields based on view
         editShoppingItemPrice.setHint(R.string.edit_text_add_price);

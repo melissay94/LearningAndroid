@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class TasksTabFragment extends Fragment {
 
     // File Saver
@@ -23,15 +26,20 @@ public class TasksTabFragment extends Fragment {
     SimpleAdapter recyclerAdapter;
 
     // RecyclerView
+    @BindView(R.id.simple_recycle)
     RecyclerView recyclerView;
 
     // Title of the list area
+    @BindView(R.id.list_title)
     TextView listTitle;
 
-    // Get the button for sending tasks
+    // Button for sending tasks
+    @BindView(R.id.add_button)
     Button addButton;
 
-    EditText editText;
+    // Field for entering task name
+    @BindView(R.id.editText)
+    EditText editTaskName;
 
     public interface DeleteListItemListener {
         void onDeleteItem(final int position);
@@ -42,9 +50,7 @@ public class TasksTabFragment extends Fragment {
         super.onCreate(bundle);
         final View view = inflater.inflate(R.layout.fragment_tasks_tab, container, false);
 
-        addButton = view.findViewById(R.id.add_button);
-        editText = view.findViewById(R.id.editText);
-        listTitle = view.findViewById(R.id.list_title);
+        ButterKnife.bind(this, view);
 
         // Set up button event
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -102,13 +108,13 @@ public class TasksTabFragment extends Fragment {
 
     // Called when user hits send button
     public void sendTask() {
-        String message = editText.getText().toString();
+        String message = editTaskName.getText().toString();
         if (message.replace(" ", "").length() > 0) {
             recyclerAdapter.addToModelList(message);
             saver.writeToFile(message, Context.MODE_APPEND);
             saver.getTasks().add(message);
         }
-        editText.setText("");
+        editTaskName.setText("");
 
         listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)" );
 
