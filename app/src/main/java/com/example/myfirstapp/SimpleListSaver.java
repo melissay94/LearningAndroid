@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * Created by melissa young on 12/18/17.
@@ -82,7 +83,7 @@ public class SimpleListSaver {
 
         // Change the title
         if (tasks.size() > 0) {
-            listTitle.setText(context.getString(R.string.task_list) + " (" + tasks.size() + " left)");
+            listTitle.setText(String.format(Locale.US, context.getString(R.string.task_list), String.valueOf(getTasks().size())));
         } else {
             listTitle.setText(context.getString(R.string.empty_task_list));
         }

@@ -16,8 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 /**
  * Fragment for setting up shopping list view and it's recycler view
@@ -25,7 +29,10 @@ import butterknife.ButterKnife;
 public class ShoppingTabFragment extends Fragment {
 
     // Adapter
-    SimpleAdapter recyclerAdapter;
+    private SimpleAdapter recyclerAdapter;
+
+    // Set up unbinder for bindings
+    private Unbinder unbinder;
 
     // RecyclerView
     @BindView(R.id.simple_recycle)
@@ -50,8 +57,9 @@ public class ShoppingTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle bundle) {
         super.onCreate(bundle);
+
         final View view = inflater.inflate(R.layout.fragment_shopping_tab, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         // Change fields based on view
         editShoppingItemPrice.setHint(R.string.edit_text_add_price);
@@ -71,20 +79,12 @@ public class ShoppingTabFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable editable) {
                 editShoppingItemPrice.removeTextChangedListener(this);
-                editShoppingItemPrice.setText("$ " + editShoppingItemPrice.getText().toString());
+                editShoppingItemPrice.setText(String.format(Locale.US, getString(R.string.money_prefix), editShoppingItemPrice.getText().toString()));
                 editShoppingItemPrice.setSelection(editShoppingItemPrice.getText().length());
             }
         });
 
         listTitle.setText(R.string.empty_shopping_list);
-
-        // Set up button event
-        addItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendTask();
-            }
-        });
 
         recyclerAdapter = new SimpleAdapter();
 
@@ -109,8 +109,16 @@ public class ShoppingTabFragment extends Fragment {
 
         return view;
     }
+
+    // Since fragments have different view lifecycles, need to unbind the view
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     // Called when user hits send button
-    public void sendTask() {
+    @OnClick(R.id.add_button)
+    public void sendItem() {
         String itemName = editShoppingItemName.getText().toString();
         String itemPrice = editShoppingItemPrice.getText().toString();
 

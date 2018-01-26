@@ -14,16 +14,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class TasksTabFragment extends Fragment {
 
     // File Saver
-    SimpleListSaver saver;
+    private SimpleListSaver saver;
 
     // Adapter
-    SimpleAdapter recyclerAdapter;
+    private SimpleAdapter recyclerAdapter;
+
+    // Unbinder
+    private Unbinder unbinder;
 
     // RecyclerView
     @BindView(R.id.simple_recycle)
@@ -50,15 +57,7 @@ public class TasksTabFragment extends Fragment {
         super.onCreate(bundle);
         final View view = inflater.inflate(R.layout.fragment_tasks_tab, container, false);
 
-        ButterKnife.bind(this, view);
-
-        // Set up button event
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendTask();
-            }
-        });
+        unbinder = ButterKnife.bind(this, view);
 
         // Instantiate saver
         saver = new SimpleListSaver(this.getActivity());
@@ -99,14 +98,21 @@ public class TasksTabFragment extends Fragment {
         }
 
         if (saver.getTasks().size() > 0) {
-            listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)");
+            listTitle.setText(String.format(Locale.US, getString(R.string.task_list), String.valueOf(saver.getTasks().size())));
         }
 
         return view;
 
     }
 
+    // Since fragments have different view lifecycles, need to unbind the view
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     // Called when user hits send button
+    @OnClick(R.id.add_button)
     public void sendTask() {
         String message = editTaskName.getText().toString();
         if (message.replace(" ", "").length() > 0) {
@@ -116,7 +122,7 @@ public class TasksTabFragment extends Fragment {
         }
         editTaskName.setText("");
 
-        listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)" );
+        listTitle.setText(String.format(Locale.US, getString(R.string.task_list), String.valueOf(saver.getTasks().size())));
 
     }
 }
