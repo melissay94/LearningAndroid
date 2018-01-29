@@ -65,7 +65,10 @@ public class ShoppingTabFragment extends Fragment {
         editShoppingItemPrice.setHint(R.string.edit_text_add_price);
         editShoppingItemPrice.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
+        // Add a listener to add a $ when a user starts to type
         editShoppingItemPrice.addTextChangedListener(new TextWatcher() {
+            boolean ignoreLoop = false;
+
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -78,9 +81,19 @@ public class ShoppingTabFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                editShoppingItemPrice.removeTextChangedListener(this);
+                // Keeps it from looping forever
+                if (ignoreLoop) return;
+
+                // Stops it from formatting the string again if the $ is already there
+                if (editShoppingItemPrice.getText().toString().startsWith("$")) return;
+
+                // If neither are true, then open the loop and format the string
+                ignoreLoop = true;
                 editShoppingItemPrice.setText(String.format(Locale.US, getString(R.string.money_prefix), editShoppingItemPrice.getText().toString()));
                 editShoppingItemPrice.setSelection(editShoppingItemPrice.getText().length());
+
+                // Change to false so it won't keep trying to loop
+                ignoreLoop = false;
             }
         });
 
