@@ -5,6 +5,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by melissa young on 12/12/17.
  * Part of recyclerView tutorial
@@ -13,13 +16,14 @@ import android.widget.TextView;
 
 public class SimpleViewHolder extends RecyclerView.ViewHolder  {
 
-    private TextView simpleTextView;
+    @BindView(R.id.simple_text)
+    TextView taskNameView;
 
     // Constructor
     public SimpleViewHolder(final View itemView, final TasksTabFragment.DeleteListItemListener listener) {
         super(itemView);
 
-        simpleTextView = itemView.findViewById(R.id.simple_text);
+        ButterKnife.bind(this, itemView);
 
         final Button deleteButton = itemView.findViewById(R.id.delete_button);
         deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -32,6 +36,6 @@ public class SimpleViewHolder extends RecyclerView.ViewHolder  {
 
     // Binds data to textView
     public void bindData(final SimpleViewModel viewModel) {
-        simpleTextView.setText(viewModel.getSimpleText());
+        taskNameView.setText(viewModel.getSimpleText());
     }
 }

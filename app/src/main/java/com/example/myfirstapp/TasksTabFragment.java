@@ -14,24 +14,39 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+
 public class TasksTabFragment extends Fragment {
 
     // File Saver
-    SimpleListSaver saver;
+    private SimpleListSaver saver;
 
     // Adapter
-    SimpleAdapter recyclerAdapter;
+    private SimpleAdapter recyclerAdapter;
+
+    // Unbinder
+    private Unbinder unbinder;
 
     // RecyclerView
+    @BindView(R.id.simple_recycle)
     RecyclerView recyclerView;
 
     // Title of the list area
+    @BindView(R.id.list_title)
     TextView listTitle;
 
-    // Get the button for sending tasks
+    // Button for sending tasks
+    @BindView(R.id.add_button)
     Button addButton;
 
-    EditText editText;
+    // Field for entering task name
+    @BindView(R.id.editText)
+    EditText editTaskName;
 
     public interface DeleteListItemListener {
         void onDeleteItem(final int position);
@@ -42,17 +57,7 @@ public class TasksTabFragment extends Fragment {
         super.onCreate(bundle);
         final View view = inflater.inflate(R.layout.fragment_tasks_tab, container, false);
 
-        addButton = view.findViewById(R.id.add_button);
-        editText = view.findViewById(R.id.editText);
-        listTitle = view.findViewById(R.id.list_title);
-
-        // Set up button event
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendTask();
-            }
-        });
+        unbinder = ButterKnife.bind(this, view);
 
         // Instantiate saver
         saver = new SimpleListSaver(this.getActivity());
@@ -93,24 +98,31 @@ public class TasksTabFragment extends Fragment {
         }
 
         if (saver.getTasks().size() > 0) {
-            listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)");
+            listTitle.setText(String.format(Locale.US, getString(R.string.task_list), String.valueOf(saver.getTasks().size())));
         }
 
         return view;
 
     }
 
+    // Since fragments have different view lifecycles, need to unbind the view
+    @Override public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
     // Called when user hits send button
+    @OnClick(R.id.add_button)
     public void sendTask() {
-        String message = editText.getText().toString();
+        String message = editTaskName.getText().toString();
         if (message.replace(" ", "").length() > 0) {
             recyclerAdapter.addToModelList(message);
             saver.writeToFile(message, Context.MODE_APPEND);
             saver.getTasks().add(message);
         }
-        editText.setText("");
+        editTaskName.setText("");
 
-        listTitle.setText(getString(R.string.task_list) + " (" + saver.getTasks().size() + " left)" );
+        listTitle.setText(String.format(Locale.US, getString(R.string.task_list), String.valueOf(saver.getTasks().size())));
 
     }
 }
