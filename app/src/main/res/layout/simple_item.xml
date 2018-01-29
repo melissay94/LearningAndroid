@@ -19,7 +19,6 @@
         android:layout_width="67dp"
         android:layout_height="40dp"
         android:layout_gravity="end"
-        android:onClick="deleteTask"
         android:text="@string/button_delete" />
 
 </LinearLayout>
