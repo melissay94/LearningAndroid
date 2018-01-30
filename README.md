@@ -8,4 +8,5 @@ As of now:
  - App has two tabs - Shopping and Tasks
  - App has a really cool cash input EditText
  - App has two recyclerviews
+ - App uses Butterknife for bindings
  - App is using CircleCi for builds and tests - https://circleci.com/gh/melissay94/LearningAndroid
